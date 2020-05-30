@@ -1,0 +1,22 @@
+{
+  "name": "quiz_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.16"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/mongodb": "^3.5.18",
+    "@types/mongoose": "^5.7.21",
+    "@types/node": "^14.0.5"
+  }
+}
