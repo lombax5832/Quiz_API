@@ -22,4 +22,19 @@ const fetchBySlug = (req, res, next) => Category.find({ slug: req.params.id }, (
     }
 })
 
-export { fetchAll, fetchBySlug }
+const addCategory = (req, res) => {
+    console.log(req.body);
+    const newcategory = new Category(req.body)
+
+    newcategory.save((err, product) => {
+        if (err) {
+            console.log("Error: ", err);
+            res.end("Error");
+        }else{
+            console.log("Product: ", product)
+            res.end("OK");
+        }
+    });
+}
+
+export { fetchAll, fetchBySlug, addCategory }

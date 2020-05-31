@@ -1,10 +1,10 @@
-const mongoose = require('mongoose')
-
-const Schema = mongoose.Schema;
+import mongoose, { Schema } from "mongoose";
 
 const CategorySchema = new Schema({
     title: { type: String },
-    stub: { type: String }
+    slug: { type: String }
+}, {
+    versionKey: false
 });
 
 export default mongoose.model('categories', CategorySchema)
