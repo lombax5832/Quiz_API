@@ -1,0 +1,37 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "lib": [
+            "es2017",
+            "es2016.array.include"
+        ],
+        "outDir": "build",
+        "sourceMap": true,
+        "removeComments": true,
+        "declaration": true,
+        "strict": false,
+        "declarationDir": "build/types",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": false,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true
+    },
+    "include": [
+        "src/"
+    ],
+    "exclude": [
+        "node_modules",
+        "build",
+        "sandbox",
+        "*.js",
+        "**/__tests__/**"
+    ]
+}

@@ -7,4 +7,4 @@ const CategorySchema = new Schema({
     stub: { type: String }
 });
 
-module.exports = mongoose.model('categories', CategorySchema)
+export default mongoose.model('categories', CategorySchema)
