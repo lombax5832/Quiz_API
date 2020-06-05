@@ -1,7 +1,8 @@
 import Category from '../models/categories'
 
 const fetchAll = (req, res, next) => Category.find((err, result) => {
-    if (err) {
+    if ( err) {
+        res.status(500)
         res.json({ error: err })
     } else {
         res.json(result)
@@ -9,11 +10,14 @@ const fetchAll = (req, res, next) => Category.find((err, result) => {
     }
 })
 
-const fetchBySlug = (req, res, next) => Category.find({ slug: req.params.id }, (err, result) => {
+const fetchBySlug = (req, res, next) => Category.findOne({ slug: req.params.id }, (err, result) => {
     if (err) {
+        console.error('fetchBySlug Error', err)
+        res.status(500)
         res.json({ error: err })
     } else {
-        if (result.length === 0) {
+        if (!result) {
+            console.error('fetchBySlug not found by slug=', req.params.id);
             res.status(404)
             return res.json({ error: "Category not found" })
         }
