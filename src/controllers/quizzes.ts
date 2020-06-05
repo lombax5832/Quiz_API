@@ -1,6 +1,6 @@
-import Category from '../models/categories'
+import Quiz from '../models/quizzes'
 
-const fetchAll = (res, next) => Category.find((err, result) => {
+const fetchAll = (res, next) => Quiz.find((err, result) => {
     if (err) {
         res.json({ error: err })
     } else {
@@ -9,7 +9,7 @@ const fetchAll = (res, next) => Category.find((err, result) => {
     }
 })
 
-const fetchBySlug = (req, res, next) => Category.find({ slug: req.params.id }, (err, result) => {
+const fetchBySlug = (req, res, next) => Quiz.find({ slug: req.params.id }, (err, result) => {
     if (err) {
         res.json({ error: err })
     } else {
@@ -22,11 +22,11 @@ const fetchBySlug = (req, res, next) => Category.find({ slug: req.params.id }, (
     }
 })
 
-const addCategory = (req, res) => {
+const addQuiz = (req, res) => {
     console.log(req.body);
-    const newcategory = new Category(req.body)
+    const newquiz = new Quiz(req.body)
 
-    newcategory.save((err, product) => {
+    newquiz.save((err, product) => {
         if (err) {
             console.log("Error: ", err);
             res.end("Error");
