@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
 const CategorySchema = new Schema({
-    title: { type: String },
-    slug: { type: String }
+    title: { type: String, required: true },
+    slug: { type: String, required: true }
 }, {
     versionKey: false
 });
