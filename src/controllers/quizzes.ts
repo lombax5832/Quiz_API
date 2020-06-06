@@ -15,10 +15,25 @@ const fetchBySlug = (req, res, next) => Quiz.find({ slug: req.params.id }, (err,
     } else {
         if (result.length === 0) {
             res.status(404)
-            return res.json({ error: "Category not found" })
+            return res.json({ error: "Quiz not found" })
         }
         res.json(result)
         next(err)
+    }
+})
+
+const fetchByID = (req, res) => Quiz.findById(req.params.id, (err, result) => {
+    if (err) {
+        console.error('fetchByID Error', err)
+        res.status(500)
+        res.json({ error: err })
+    } else {
+        if (!result) {
+            console.error('fetchByID not found by slug=', req.params.id)
+            res.status(404)
+            return res.json({ error: "Quiz not found" })
+        }
+        res.json(result)
     }
 })
 
@@ -30,11 +45,24 @@ const addQuiz = (req, res) => {
         if (err) {
             console.log("Error: ", err);
             res.end("Error");
-        }else{
+        } else {
             console.log("Product: ", product)
             res.end("OK");
         }
-    });
+    })
 }
 
-export { fetchAll, fetchBySlug, addCategory }
+const updateQuiz = (req, res) => {
+
+    Quiz.findByIdAndUpdate(req.params.id, req.body, { new: true }, (err, product) => {
+        if (err) {
+            console.log("Error: ", err);
+            res.end("Error");
+        } else {
+            console.log("Product: ", product)
+            res.json(product);
+        }
+    })
+}
+
+export { fetchAll, fetchByID, addQuiz, updateQuiz }
