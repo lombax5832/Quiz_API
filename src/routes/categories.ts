@@ -1,9 +1,11 @@
-import express from 'express'
-import { fetchAll, fetchByID, addCategory, updateCategory } from "../controllers/categories"
+import express from 'express';
+import { addCategory, fetchAll, fetchAllWithQuizzes, fetchByID, updateCategory } from "../controllers/categories";
 
 const router = express.Router();
 
 router.get('/', fetchAll)
+
+router.get('/with_quizzes', fetchAllWithQuizzes)
 
 router.get('/:id', fetchByID)
 

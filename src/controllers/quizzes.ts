@@ -1,16 +1,17 @@
 import Quiz from '../models/quizzes'
 
-const fetchAll = (res, next) => Quiz.find((err, result) => {
+const fetchAll = (req, res) => Quiz.find((err, result) => {
     if (err) {
+        res.status(400)
         res.json({ error: err })
     } else {
         res.json(result)
-        next(err)
     }
 })
 
 const fetchBySlug = (req, res, next) => Quiz.find({ slug: req.params.id }, (err, result) => {
     if (err) {
+        res.status(400)
         res.json({ error: err })
     } else {
         if (result.length === 0) {
@@ -18,14 +19,13 @@ const fetchBySlug = (req, res, next) => Quiz.find({ slug: req.params.id }, (err,
             return res.json({ error: "Quiz not found" })
         }
         res.json(result)
-        next(err)
     }
 })
 
 const fetchByID = (req, res) => Quiz.findById(req.params.id, (err, result) => {
     if (err) {
         console.error('fetchByID Error', err)
-        res.status(500)
+        res.status(400)
         res.json({ error: err })
     } else {
         if (!result) {
@@ -43,6 +43,7 @@ const addQuiz = (req, res) => {
 
     newquiz.save((err, product) => {
         if (err) {
+            res.status(400)
             console.log("Error: ", err);
             res.end("Error");
         } else {
@@ -56,6 +57,7 @@ const updateQuiz = (req, res) => {
 
     Quiz.findByIdAndUpdate(req.params.id, req.body, { new: true }, (err, product) => {
         if (err) {
+            res.status(400)
             console.log("Error: ", err);
             res.end("Error");
         } else {
