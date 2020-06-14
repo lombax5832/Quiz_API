@@ -27,7 +27,12 @@ export const JOURNEY: IJourney = {
         { path: '/', elementId: 'welcome', label: 'Home', requireUser: false, icon: 'home' },
         'divider',
         { path: 'counter', elementId: 'counter', label: 'Counter', requireUser: false },
-        { path: 'editquestion', elementId: 'editquestion', label: 'Edit Question', requireUser: true },
+        { path: 'editquestion', elementId: 'editquestionview', label: 'Edit Question', requireUser: true,
+          children: [
+            {path: 'new', elementId: 'editquestion'},
+            {path: ':id', elementId: 'editquestion'}
+          ]
+        },
         {
           path: 'editcategory', elementId: 'editcategoryview', label: 'Edit Category', requireUser: true,
           children: [
