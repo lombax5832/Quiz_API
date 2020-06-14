@@ -10,7 +10,7 @@ const addQuestion = (req, res) => {
             res.end("Error");
         } else {
             console.log("Product: ", product)
-            res.end("OK");
+            res.json({ _id: product._id })
         }
     });
 }
@@ -30,4 +30,15 @@ const fetchByID = (req, res) => Question.findById(req.params.id, (err, result) =
     }
 })
 
-export { addQuestion, fetchByID }
+const updateQuestion = (req, res) => Question.findByIdAndUpdate(req.params.id, req.body, { new: true }, (err, product) => {
+    if (err) {
+        console.log("Error: ", err);
+        res.end("Error");
+    } else {
+        console.log("Product: ", product)
+        res.json({ _id: product._id })
+    }
+})
+
+
+export { addQuestion, fetchByID, updateQuestion }
