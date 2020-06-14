@@ -1,9 +1,11 @@
 import express from 'express';
-import { addQuestion, fetchByID, updateQuestion } from '../controllers/questions';
+import { addQuestion, fetchByID, fetchByQuizID, updateQuestion } from '../controllers/questions';
 
 const router = express.Router();
 
 router.get('/:id', fetchByID)
+
+router.get('/quiz/:quiz_id', fetchByQuizID)
 
 router.post('/new', addQuestion)
 
