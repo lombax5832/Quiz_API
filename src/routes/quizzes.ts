@@ -1,9 +1,11 @@
 import express from 'express'
-import { fetchAll, fetchByID, addQuiz, updateQuiz } from "../controllers/quizzes"
+import { fetchAll, fetchByID, addQuiz, updateQuiz, fetchAllWithCategories } from "../controllers/quizzes"
 
 const router = express.Router();
 
 router.get('/', fetchAll)
+
+router.get('/with_categories', fetchAllWithCategories)
 
 router.get('/:id', fetchByID)
 

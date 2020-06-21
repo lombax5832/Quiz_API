@@ -11,7 +11,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
 const port = 3001;
 
 const mongoDB = 'mongodb://192.168.0.199:27017/quiz';
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 

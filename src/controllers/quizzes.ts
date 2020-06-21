@@ -22,6 +22,42 @@ const fetchBySlug = (req, res, next) => Quiz.find({ slug: req.params.id }, (err,
     }
 })
 
+const fetchAllWithCategories = (req, res) => Quiz.aggregate([{
+    $lookup: {
+        from: 'categories',
+        localField: 'category_id',
+        foreignField: '_id',
+        as: 'category'
+    }
+}, {
+    $unwind: {
+        path: "$category",
+        preserveNullAndEmptyArrays: false
+    }
+}, {
+    $project: {
+        _id: 1,
+        category_id: 1,
+        title: 1,
+        categoryName: "$category.title",
+        slug: 1,
+        quiz_id: 1,
+        description: 1,
+    }
+}, {
+    $sort: {
+        categoryName: 1
+    }
+}]).exec((err, result) => {
+    if (err) {
+        console.error('fetchAllWithCategories Error', err)
+        res.status(500)
+        res.json({ error: err })
+    } else {
+        res.json(result)
+    }
+})
+
 const fetchByID = (req, res) => Quiz.findById(req.params.id, (err, result) => {
     if (err) {
         console.error('fetchByID Error', err)
@@ -67,4 +103,4 @@ const updateQuiz = (req, res) => {
     })
 }
 
-export { fetchAll, fetchByID, addQuiz, updateQuiz }
+export { fetchAll, fetchAllWithCategories, fetchByID, addQuiz, updateQuiz }
