@@ -32,7 +32,7 @@ export const JOURNEY: IJourney = {
           path: 'quizzes', elementId: 'quizzesoutlet', label: 'Quizzes', requireUser: false,
           children: [
             {path: '/', elementId: 'listquizzes', props: {apiUri: '/categories/with_quizzes'}},
-            {path: ':id', elementId: 'quizview'}
+            {path: ':id', elementId: 'startquiz'}
           ],
         },
         {
