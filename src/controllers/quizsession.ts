@@ -26,16 +26,27 @@ import { default as shuffle } from 'shuffle-array';
 import { IQuizSessionOptions } from '../interfaces/quiz_session_options';
 import Question, { IQuestion } from '../models/questions';
 import QuizSession from '../models/quizsession';
+import { Schema, Types } from 'mongoose';
+import { ObjectId } from "mongodb";
+
+
 
 const TAG = 'QUIZ_SESSION';
 
+export interface IQuestionMeta {
+  choices: number[]
+  userAnswers?: number[]
+  question_id: ObjectId
+}
+export interface IQuizSession {
+  active_question: number;
+  _id: ObjectId
+  quiz_id: ObjectId
+  quiz_type: string
+  score?: number
+  questions: IQuestionMeta[]
+}
 
-const new_session = (userID: string,
-  quizID: string,
-  options: IQuizSessionOptions) => {
-
-
-};
 
 const randomOrder = (size: number) => {
   return shuffle([...Array(size).keys()], { 'copy': true })
@@ -68,6 +79,7 @@ const getNewSession = async (req, res) => {
   const ret = {
     quiz_id: options.quiz_id,
     quiz_type: 'practice',
+    active_question: 0,
     questions: sessionQuestions,
   };
 
@@ -84,6 +96,30 @@ const getNewSession = async (req, res) => {
   })
 };
 
-export { getNewSession };
+
+const getQuizBySessionId = async (req, res) => {
+  const sessionID: string = req.params.id;
+  console.log(TAG, 'entered getQuizBySessionId with', sessionID);
+
+  const sessionData: IQuizSession = await QuizSession.findById(sessionID).lean();
+  console.log(TAG, 'sessionData:', sessionData);
+
+  const questionIDs = sessionData.questions.map(q => q.question_id)
+  console.log(TAG, 'questionIDs:', questionIDs);
+
+  const questions: unknown = await Question.find({_id: {$in: questionIDs}}).lean();
+
+  let myQuestions = (sessionData as IQuizSession).questions.map(questionMeta => {
+    let quest = (questions as IQuestion[]).find(q => q._id.equals(questionMeta.question_id));
+    let answers = questionMeta.choices.map(ansId => quest.answers[ansId]);
+
+    return {...quest, answers}
+  })
+
+  res.json({...sessionData, questions: myQuestions, active_question: sessionData.active_question || 0})
+
+}
+
+export { getNewSession, getQuizBySessionId };
 
 

@@ -28,6 +28,7 @@ export const JOURNEY: IJourney = {
         { path: '/', elementId: 'welcome', label: 'Home', requireUser: false, icon: 'home' },
         'divider',
         { path: 'counter', elementId: 'counter', label: 'Counter', requireUser: false },
+        { path: 'quiz/:session_id', elementId: 'quizsession', requireUser: true },
         {
           path: 'quizzes', elementId: 'quizzesoutlet', label: 'Quizzes', requireUser: false,
           children: [

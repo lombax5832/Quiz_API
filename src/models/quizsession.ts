@@ -1,17 +1,19 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose';
 
 const QuizSessionSchema = new Schema({
-    quiz_id: { type: Schema.Types.ObjectId, required: true },
-    user_id: { type: Schema.Types.ObjectId, required: false },
-    quiz_type: { type: String, enum: ['practice', 'exam'] },
-    questions: [{
-        _id: false,
-        question_id: { type: Schema.Types.ObjectId, required: true },
-        choices: { type: [Number], required: true },
-        userAnswers: { type: [Number] },
-    }]
+  quiz_id: { type: Schema.Types.ObjectId, required: true },
+  user_id: { type: Schema.Types.ObjectId, required: false },
+  score: { type: Number, required: false },
+  quiz_type: { type: String, enum: ['practice', 'exam'] },
+  active_question: {type: Number},
+  questions: [{
+    _id: false,
+    question_id: { type: Schema.Types.ObjectId, required: true },
+    choices: { type: [Number], required: true },
+    userAnswers: { type: [Number] },
+  }],
 }, {
-    versionKey: false
+  versionKey: false,
 });
 
-export default mongoose.model('quizsession', QuizSessionSchema)
+export default mongoose.model('quizsession', QuizSessionSchema);
