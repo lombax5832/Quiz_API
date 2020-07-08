@@ -1,4 +1,20 @@
 import mongoose, { Schema } from "mongoose";
+import { ObjectId } from "mongodb";
+
+export type quiztype = 'single' | 'multi'
+
+export interface IQuestion {
+    _id: ObjectId
+    question: string
+    explanation?: string
+    quiz_id: ObjectId
+    qtype: quiztype
+    answers: [{
+        body: string
+        explanation: string
+        isCorrect: boolean
+    }]
+}
 
 const QuestionSchema = new Schema({
     question: { type: String, required: true },

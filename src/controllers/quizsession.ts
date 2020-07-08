@@ -1,7 +1,4 @@
-import Question from '../models/questions';
-
-const TAG = 'QUIZ_SESSION';
-
+import { default as shuffle } from 'shuffle-array';
 /**
  * Select n question by quizID
  * optionally randomize order
@@ -27,13 +24,22 @@ const TAG = 'QUIZ_SESSION';
  * @param res
  */
 import { IQuizSessionOptions } from '../interfaces/quiz_session_options';
+import Question, { IQuestion } from '../models/questions';
+import QuizSession from '../models/quizsession';
+
+const TAG = 'QUIZ_SESSION';
+
 
 const new_session = (userID: string,
-                     quizID: string,
-                     options: IQuizSessionOptions) => {
+  quizID: string,
+  options: IQuizSessionOptions) => {
 
 
 };
+
+const randomOrder = (size: number) => {
+  return shuffle([...Array(size).keys()], { 'copy': true })
+}
 
 
 const getNewSession = async (req, res) => {
@@ -48,16 +54,34 @@ const getNewSession = async (req, res) => {
     res.send('quiz_id not passed in request body');
   }
 
+  let questions = await Question.find({ quiz_id: quiz_id }, { _id: true, answers: true })
 
-  const questions = await Question.find({ quiz_id: quiz_id }, {_id: true, answers: true})
+  if (randomize_questions) {
+    shuffle(questions)
+  }
+
+  let sessionQuestions = questions.map(question => {
+    const q = (question as unknown as IQuestion)
+    return { question_id: q._id, choices: randomize_answers ? randomOrder(q.answers.length) : [...Array(q.answers.length).keys()] }
+  })
 
   const ret = {
-    session_id: '123456',
     quiz_id: options.quiz_id,
-    questions,
+    quiz_type: 'practice',
+    questions: sessionQuestions,
   };
 
-  res.json(ret);
+  const newQuizSession = new QuizSession(ret)
+
+  newQuizSession.save((err, product) => {
+    if (err) {
+      console.log("Error: ", err);
+      res.end("Error");
+    } else {
+      console.log("Product: ", product)
+      res.json({ quiz_session: product._id })
+    }
+  })
 };
 
 export { getNewSession };
