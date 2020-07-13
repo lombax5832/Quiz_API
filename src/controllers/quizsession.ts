@@ -102,6 +102,11 @@ const getQuizBySessionId = async (req, res) => {
   console.log(TAG, 'entered getQuizBySessionId with', sessionID);
 
   const sessionData: IQuizSession = await QuizSession.findById(sessionID).lean();
+
+  //res.statusCode = 400;
+  //res.end('Session not found');
+
+  //return;
   console.log(TAG, 'sessionData:', sessionData);
 
   const questionIDs = sessionData.questions.map(q => q.question_id)
