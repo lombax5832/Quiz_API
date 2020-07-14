@@ -9,6 +9,7 @@ export interface IRouteParam {
   divider?: boolean
   requireUser?: boolean
   props? : { [key: string]: any }
+  title?: string
   children?: Array<IRouteParamOrDivider>
 }
 
@@ -27,7 +28,8 @@ export const JOURNEY: IJourney = {
       children: [
         { path: '/', elementId: 'welcome', label: 'Home', requireUser: false, icon: 'home' },
         'divider',
-        { path: 'counter', elementId: 'counter', label: 'Counter', requireUser: false },
+        { path: 'counter', elementId: 'counter', label: 'Counter', title: 'My Counter', requireUser: false },
+        { path: 'quiz/:session_id', elementId: 'quizsession', requireUser: true },
         {
           path: 'quizzes', elementId: 'quizzesoutlet', label: 'Quizzes', requireUser: false,
           children: [
@@ -39,7 +41,7 @@ export const JOURNEY: IJourney = {
           path: 'editquestion', elementId: 'editquestionview', label: 'Edit Question', requireUser: true,
           children: [
             { path: '/', elementId: 'editquestionlist' },
-            { path: 'new', elementId: 'editquestion' },
+            { path: 'new', elementId: 'editquestion', title: 'Create Question' },
             { path: ':id', elementId: 'editquestion' },
           ],
         },
@@ -47,7 +49,7 @@ export const JOURNEY: IJourney = {
           path: 'editcategory', elementId: 'editcategoryview', label: 'Edit Category', requireUser: true,
           children: [
             { path: '/', elementId: 'editcategorylist' },
-            { path: 'new', elementId: 'editcategory', requireUser: true },
+            { path: 'new', elementId: 'editcategory', requireUser: true, title: 'Create Category' },
             { path: 'success', elementId: 'editcategorysuccess' },
             { path: ':id', elementId: 'editcategory' },
           ],
