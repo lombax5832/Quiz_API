@@ -71,6 +71,11 @@ const getNewSession = async (req, res) => {
     shuffle(questions)
   }
 
+  /**
+   * TODO make sure to limit result to max of num_questions
+   * but after the shuffle.
+   */
+
   let sessionQuestions = questions.map(question => {
     const q = (question as unknown as IQuestion)
     return { question_id: q._id, choices: randomize_answers ? randomOrder(q.answers.length) : [...Array(q.answers.length).keys()] }
@@ -95,6 +100,75 @@ const getNewSession = async (req, res) => {
     }
   })
 };
+
+
+const getQuizSessionBySessionId = async(req, res) => {
+  const sessionID: string = req.params.id;
+  console.log(TAG, 'entered getQuizSessionBySessionId with', sessionID);
+
+  const sessionData = await QuizSession.aggregate([
+    {
+      $match: {
+        _id: new ObjectId(sessionID)
+      }
+    }, {
+      $lookup: {
+        from: 'quizzes',
+        localField: 'quiz_id',
+        foreignField: '_id',
+        as: 'quiz_data'
+      }
+    }, {
+      $unwind: {
+        path: "$quiz_data",
+        preserveNullAndEmptyArrays: false
+      }
+    }, {
+      $lookup: {
+        from: 'categories',
+        localField: 'quiz_data.category_id',
+        foreignField: '_id',
+        as: 'category'
+      }
+    }, {
+      $unwind: {
+        path: '$category',
+        preserveNullAndEmptyArrays: false
+      }
+    }, {
+      $project: {
+        _id: 1,
+        quiz_id: 1,
+        quiz_type: 1,
+        active_question: 1,
+        questions: 1,
+        quiz_title: '$quiz_data.title',
+        quiz_slug: '$quiz_data.slug',
+        quiz_id_code: '$quiz_data.quiz_id',
+        quiz_description: '$quiz_data.description',
+        passing_grade: '$quiz_data.passing_grade',
+        category_title: '$category.title',
+        category_id: '$category._id',
+        category_slug: '$category.slug'
+      }
+    }, {
+      $lookup: {
+        from: 'questions',
+        localField: 'questions.question_id',
+        foreignField: '_id',
+        as: 'questions_array'
+      }
+    }
+  ]).then(data => {
+
+    console.log('getQuizSessionBySessionId aggregate data')
+
+    return data;
+  });
+
+  return res.json(sessionData);
+
+}
 
 
 const getQuizBySessionId = async (req, res) => {
@@ -125,6 +199,6 @@ const getQuizBySessionId = async (req, res) => {
 
 }
 
-export { getNewSession, getQuizBySessionId };
+export { getNewSession, getQuizBySessionId, getQuizSessionBySessionId };
 
 
