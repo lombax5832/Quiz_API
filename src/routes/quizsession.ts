@@ -4,7 +4,7 @@ import { getNewSession, getQuizBySessionId, getQuizSessionBySessionId } from '..
 const router = express.Router();
 
 router.post('/new', getNewSession)
-router.get('/:id', getQuizBySessionId)
+router.get('/:id', getQuizSessionBySessionId)
 router.get('/session/:id', getQuizSessionBySessionId)
 
 export default router;
