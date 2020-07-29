@@ -5,7 +5,12 @@ const QuizSessionSchema = new Schema({
   user_id: { type: Schema.Types.ObjectId, required: false },
   score: { type: Number, required: false },
   quiz_type: { type: String, enum: ['practice', 'exam'] },
-  active_question: {type: Number},
+  active_question: { type: Number },
+  options: {
+    num_questions: { type: Number },
+    randomize_questions: { type: Boolean, default: false },
+    randomize_answers: { type: Boolean, default: false },
+  },
   questions: [{
     _id: false,
     question_id: { type: Schema.Types.ObjectId, required: true },

@@ -3,17 +3,19 @@ import { ObjectId } from "mongodb";
 
 export type quiztype = 'single' | 'multi'
 
+export interface IAnswer {
+    isCorrect: boolean;
+    body: string;
+    explanation: string;
+}
+
 export interface IQuestion {
     _id: ObjectId
     question: string
     explanation?: string
     quiz_id: ObjectId
     qtype: quiztype
-    answers: [{
-        body: string
-        explanation: string
-        isCorrect: boolean
-    }]
+    answers: Array<IAnswer>
 }
 
 const QuestionSchema = new Schema({
