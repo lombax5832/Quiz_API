@@ -105,6 +105,7 @@ const getNewSession = async (req, res) => {
     quiz_type: 'practice',
     active_question: 0,
     questions: sessionQuestions,
+    user_id: req.principal?._id,
     options
   };
 

@@ -4,6 +4,7 @@ import quizRouter from "./quizzes";
 import questionRouter from './questions';
 import sessionRouter from './session'
 import quizSessionRouter from './quizsession';
+import validateToken from '../middleware/tokenauth';
 
 const router = express.Router();
 
@@ -12,6 +13,6 @@ router.use('/categories', categoriesRouter);
 router.use('/quizzes', quizRouter);
 router.use('/questions', questionRouter)
 router.use('/session', sessionRouter)
-router.use('/quizsession', quizSessionRouter)
+router.use('/quizsession', validateToken, quizSessionRouter)
 
 export default router
