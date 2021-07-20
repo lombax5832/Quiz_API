@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc --pretty",
     "start": "node build/index.js",
-    "prestart": "npm run build"
+    "prestart": "npm run build",
+    "deploy": "npm run build && tar -cvzf Quiz-API.tgz build package.json package-lock.json && aws s3 cp Quiz-API.tgz s3://quiz-files"
   },
   "author": "",
   "license": "ISC",

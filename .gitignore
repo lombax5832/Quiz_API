@@ -3,3 +3,5 @@ build/
 .idea/
 .serverless/
 secrets.json
+Quiz-API.tgz
+.DS_Store
