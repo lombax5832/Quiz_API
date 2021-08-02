@@ -8,7 +8,7 @@ const app = express()
 app.set('etag', false);
 app.use(bodyParser.json({ limit: "50mb" }));
 
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 const mongoDB = 'mongodb://192.168.0.199:27017/quiz';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
