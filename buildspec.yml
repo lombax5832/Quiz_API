@@ -15,6 +15,6 @@ phases:
     commands:
       - echo Running post_builod
       - npm run packagezip
-  artifacts:
-    files:
-      - app.zip
+artifacts:
+  files:
+    - app.zip
