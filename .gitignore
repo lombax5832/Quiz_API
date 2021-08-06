@@ -5,4 +5,4 @@ build/
 secrets.json
 Quiz-API.tgz
 .DS_Store
-Archive.zip
+*.zip
