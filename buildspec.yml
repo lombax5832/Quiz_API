@@ -18,5 +18,5 @@ phases:
 artifacts:
   files:
     - Procfile
-    - node_modules
-    - build
+    - node_modules/**/*
+    - build/**/*
