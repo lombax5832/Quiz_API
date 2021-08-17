@@ -7,14 +7,16 @@ phases:
     commands:
       - echo Starting pre_build. Install npm dependencies
       - npm install
+      - echo $CODEBUILD_RESOLVED_SOURCE_VERSION
   build:
     commands:
       - echo Starting build
       - npm run build
   post_build:
     commands:
-      - echo Running post_builod
-      - npm run packagezip
+      - echo Entered post_build nothing to do here
 artifacts:
   files:
-    - app.zip
+    - Procfile
+    - node_modules/**/*
+    - build/**/*
